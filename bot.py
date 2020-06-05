@@ -127,7 +127,6 @@ async def on_message(message):
 
 @bot.command()
 async def help(ctx):
-	await ctx.message.delete()
 
 	msg = await ctx.send('**Подождите...**')
 
