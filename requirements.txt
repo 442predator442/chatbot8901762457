@@ -1,5 +1,5 @@
 discord.py
-random
+random.py
 time
 requests
 wikipedia
