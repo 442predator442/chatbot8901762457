@@ -653,5 +653,4 @@ async def wiki_error(ctx, error):
 
 		await ctx.send(embed = emb)
 
-
-bot.run('NzE1ODQ4NDMwMzQ1Mzg4MDQz.XtDeHg.-kAv3rGDk4wYvjb8v3tnOTFhFlY')
+token = os.environ.get('BOT_TOKEN')
