@@ -1,0 +1,9 @@
+discord.py
+random
+time
+requests
+wikipedia
+nekos.py
+aiohttp
+aiomysql
+async-timeout
