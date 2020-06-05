@@ -1,5 +1,4 @@
 discord.py
-time
 requests
 wikipedia
 nekos.py
