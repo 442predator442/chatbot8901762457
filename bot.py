@@ -363,7 +363,7 @@ async def tickle(ctx, member : discord.Member):
         emb.set_image(url=nekos.img('tickle'))
 
         await ctx.send(embed=emb)
-	
+
 
 @bot.command()
 @commands.has_permissions(administrator = True)
