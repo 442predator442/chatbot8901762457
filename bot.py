@@ -6,27 +6,14 @@ import time
 from random import randint
 import requests
 from discord import Webhook, RequestsWebhookAdapter
+import wikipedia
 import nekos
 
-word = ['сраннич', 'сранный', 'сранич', 'сраный', 'сраный кот', 'даун', 'лох', 'пидарас', 'пидор', 'пидорас']
 
 commandd = ['.clear', '.avatar', '.ping', '.serverinfo', '.say', '.bug', '.kick']
 
-red = ['red', 'r']
 
-green = ['green', 'gr']
-
-purple = ['purple', 'prp']
-
-gold = ['gold', 'yellow']
-
-blue = ['blue', 'bl']
-
-black = ['black', 'blk']
-
-magenta = ['magenta', 'mgn']
-
-bot = commands.Bot(command_prefix = ".")
+bot = commands.Bot(command_prefix = '.')
 bot.remove_command('help')
 
 
@@ -126,6 +113,7 @@ async def on_message(message):
 
 @bot.command()
 async def help(ctx):
+	await ctx.message.delete()
 
 	msg = await ctx.send('**Подождите...**')
 
@@ -184,7 +172,7 @@ async def help(ctx):
 		elif str(reaction.emoji) == '🔧':
 			emb = discord.Embed(
 				title = 'Команды для модерации:', 
-				description = '```() - Необязательный аргумент.\n[] - Обязательный аргумент.```\n\n``.clear [к-во]``\n**Очищает указанное к-во сообщений.**\n\n``.ban [@участник] [причина]``\n**Бан указаного участника (в розроботке...).**\n\n``.unban [@участник] (причина)``\n**Розбан указанного участника (в розроботке...).**\n\n``.kick [@участник] (причина)``\n**Выгнать указанного участника.**\n\n``.warn``\n**Выдать предуприждение нарушителю.**\n\n``.say [текст]``\n**Отправить сообщение от имени бота.**', 
+				description = '```() - Необязательный аргумент.\n[] - Обязательный аргумент.```\n\n``.clear [к-во]``\n**Очищает указанное к-во сообщений.**\n\n``.ban [@участник] [причина]``\n**Бан указаного участника (в розроботке...).**\n\n``.unban [@участник] (причина)``\n**Розбан указанного участника (в розроботке...).**\n\n``.kick [@участник] (причина)``\n**Выгнать указанного участника.**', 
 				colour = discord.Colour.dark_blue()
 				)
 
@@ -365,10 +353,17 @@ async def tickle(ctx, member : discord.Member):
 
 
 @bot.command()
-@commands.has_permissions(administrator = True)
-async def say(ctx,* , agr: str):
-    await ctx.send (f'{agr}')
-    await ctx.message.delete()
+async def wiki(ctx, *, arg: int):
+	wikipedia.set_lang('ru')
+	icon = wikipedia.page(arg)
+	summary = wikipedia.summary(arg)
+	emb = discord.Embed(
+		title = icon.title, 
+		description = summary, 
+		colour = discord.Colour.green()
+		)
+	emb.set_author(name = 'Подробнее сдесь! Кликни!', url = icon.url, icon_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png')
+	await ctx.send(embed = emb)
 
 
 @bot.command()
@@ -458,16 +453,6 @@ async def bug(ctx, *, agr):
 
 
 @bot.command()
-@commands.has_permissions(administrator = True)
-async def bug_answer(ctx, member:discord.Member, *, arg):
-	await ctx.message.delete()
-	emb = discord.Embed(description = f'**Ответ от:** {ctx.author.mention}\n**Кому:** {member.mention}\n\n**Ответ:** ``{arg}``',colour = discord.Colour.green())
-	emb.set_footer(text = f'Server: {ctx.guild.name}')
-	await member.send(embed = emb)
-	await ctx.send(embed = emb)
-
-
-@bot.command()
 async def ping(ctx): 
     emb = discord.Embed(description= f'**Пинг:** ``{bot.ws.latency * 1000:.0f} ms``',colour = discord.Colour.blue())
     emb.set_footer(text = f'Your ID: {ctx.author.id}')
@@ -482,80 +467,12 @@ async def user(ctx, member: discord.Member = None):
 	await ctx.send(embed = emb)
 
 
-@bot.command()
-@commands.has_permissions(administrator = True)
-async def embed(ctx, text, title, *, arg):
-	if text in green:
-		await ctx.message.delete()
-		emb = discord.Embed(title = title, description = arg, colour = discord.Colour.green())
-		emb.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = emb)
-
-	if text in red:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.red())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-	if text in black:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.default())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-	if text in gold:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.gold())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-	if text in magenta:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.magenta())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-	if text in blue:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.blue())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-	if text in purple:
-		await ctx.message.delete()
-		embed = discord.Embed(title = title, description = arg, colour = discord.Colour.purple())
-		embed.set_footer(text = f'Embed by {ctx.author.name}#{ctx.author.discriminator}')
-		await ctx.send(embed = embed)
-
-# cd C:/python/ChatBot
-
 @clear.error
 async def clear_error(ctx, error):
 	if isinstance(error, commands.MissingRequiredArgument):
 		emb = discord.Embed(
 			title = 'Error:', 
 			description = '**Введите количество сообщений для очистки!**', 
-			colour = discord.Colour.red()
-			)
-
-		await ctx.send(embed = emb)
-
-	if isinstance(error, commands.MissingPermissions):
-		emb = discord.Embed(
-			title = 'Error:', 
-			description = '**У тебя недостаточно прав для использования данной команды!**', 
-			colour = discord.Colour.red()
-			)
-
-		await ctx.send(embed = emb)
-
-
-@ban.error
-async def ban_error(ctx, error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		emb = discord.Embed(
-			title = 'Error:', 
-			description = '**Введите все аргуметы!**\n**Использовать:** ``.ban [@user] [reason]``', 
 			colour = discord.Colour.red()
 			)
 
@@ -583,27 +500,6 @@ async def suggest_error(ctx, error):
 		await ctx.send(embed = emb)
 
 
-@say.error
-async def say_error(ctx, error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		emb = discord.Embed(
-			title = 'Error:', 
-			description = '**Введите все аргуметы!**\n**Использовать:** ``.say [текст]``', 
-			colour = discord.Colour.red()
-			)
-
-		await ctx.send(embed = emb)
-
-	if isinstance(error, commands.MissingPermissions):
-		emb = discord.Embed(
-			title = 'Error:', 
-			description = '**У тебя недостаточно прав для использования данной команды!**', 
-			colour = discord.Colour.red()
-			)
-
-		await ctx.send(embed = emb)
-
-
 @kick.error
 async def kick_error(ctx, error):
 	if isinstance(error, commands.MissingRequiredArgument):
@@ -625,16 +521,6 @@ async def kick_error(ctx, error):
 		await ctx.send(embed = emb)
 
 
-@wiki.error
-async def wiki_error(ctx, error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		emb = discord.Embed(
-			title = 'Error:',
-			 description = '**Введите все аргуметы!**\n**Использовать:** ``.wiki [текст]``', 
-			 colour = discord.Colour.red()
-			 )
-
-		await ctx.send(embed = emb)
 
 token = os.environ.get('BOT_TOKEN')
-bot.run(str(token))
+bot.run(BOT_TOKEN)
