@@ -6,7 +6,6 @@ import time
 from random import randint
 import requests
 from discord import Webhook, RequestsWebhookAdapter
-import wikipedia
 import nekos
 
 word = ['сраннич', 'сранный', 'сранич', 'сраный', 'сраный кот', 'даун', 'лох', 'пидарас', 'пидор', 'пидорас']
