@@ -363,21 +363,7 @@ async def tickle(ctx, member : discord.Member):
         emb.set_image(url=nekos.img('tickle'))
 
         await ctx.send(embed=emb)
-
-
-@bot.command()
-async def wiki(ctx, *, arg: int):
-	wikipedia.set_lang('ru')
-	icon = wikipedia.page(arg)
-	summary = wikipedia.summary(arg)
-	emb = discord.Embed(
-		title = icon.title, 
-		description = summary, 
-		colour = discord.Colour.green()
-		)
-	emb.set_author(name = 'Подробнее сдесь! Кликни!', url = icon.url, icon_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png')
-	await ctx.send(embed = emb)
-
+	
 
 @bot.command()
 @commands.has_permissions(administrator = True)
