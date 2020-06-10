@@ -1,6 +1,5 @@
 discord.py
 requests
-wikipedia
 nekos.py
 aiohttp
 aiomysql
